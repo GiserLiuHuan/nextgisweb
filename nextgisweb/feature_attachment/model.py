@@ -59,7 +59,7 @@ class FeatureAttachment(Base):
                 _file_meta["timestamp"] = exif.get(306)  # Timestamp EXIF tag
                 projection = xmp["xmpmeta"]["RDF"]["Description"].get("ProjectionType")
                 if projection:
-                    _file_meta["GPano"] = {"ProjectionType": projection}
+                    _file_meta["panorama"] = {"ProjectionType": projection}
                 self.file_meta = _file_meta
                 try:
                     image = Image.open(env.file_storage.filename(self.fileobj))
