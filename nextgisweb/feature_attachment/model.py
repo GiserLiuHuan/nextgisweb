@@ -27,6 +27,7 @@ class FeatureAttachment(Base):
     name = db.Column(db.Unicode, nullable=True)
     size = db.Column(db.BigInteger, nullable=False)
     mime_type = db.Column(db.Unicode, nullable=False)
+    file_meta = db.Column(db.JSONB, nullable=True)
 
     description = db.Column(db.Unicode, nullable=True)
 
@@ -63,6 +64,7 @@ class FeatureAttachment(Base):
             'mime_type': self.mime_type,
             'description': self.description,
             'is_image': self.is_image,
+            "file_meta": self.file_meta
         }
 
     def deserialize(self, data):
