@@ -1,9 +1,12 @@
 from tempfile import NamedTemporaryFile
 from zipfile import ZipFile
+from pathlib import Path
+from PIL import Image
 
 import pytest
 import transaction
 import webtest
+import shutil
 
 from nextgisweb.env import DBSession
 from nextgisweb.lib.geometry import Geometry
@@ -15,6 +18,8 @@ from nextgisweb.vector_layer import VectorLayer
 from .. import FeatureAttachment
 
 pytestmark = pytest.mark.usefixtures("ngw_resource_defaults", "ngw_auth_administrator")
+
+DATA_PATH = Path(__file__).parent / "data" 
 
 att_ids = dict()
 
@@ -163,3 +168,25 @@ def test_import_multiple(layer_id, ngw_webtest_app):
     resp = ngw_webtest_app.put_json(f'/api/resource/{layer_id}/feature_attachment/import', dict(
         source=upload_meta), status=200)
     assert resp.json == dict(imported=1, skipped=1)
+
+# name = '{feature_id}/{file_name}'
+def test_import_image(layer_id, clear, ngw_webtest_app):
+    file_path = DATA_PATH / 'panorama-image.jpg'
+    with open(file_path, mode='rb') as f:
+        files = (dict(name='00003/image', content=f.read())) 
+        upload_meta = generate_archive(files, ngw_webtest_app)
+        resp = ngw_webtest_app.put_json(
+            f'/api/resource/{layer_id}/feature_attachment/import',
+            dict(source=upload_meta),
+            status=200,
+        )
+        assert resp.json == dict(imported=1, skipped=0)
+
+    with transaction.manager:
+        assert (
+            FeatureAttachment.filter_by(resource_id=layer_id, feature_id=3)
+            .one()
+            .file_meta['panorama']
+            is not None
+        )
+
