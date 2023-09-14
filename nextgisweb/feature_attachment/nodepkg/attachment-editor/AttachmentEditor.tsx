@@ -7,6 +7,8 @@ import { FileUploaderButton } from "@nextgisweb/file-upload/file-uploader";
 import type { UploaderMeta } from "@nextgisweb/file-upload/file-uploader/type";
 import { ActionToolbar } from "@nextgisweb/gui/action-toolbar";
 import { Button, Image, Input, Table, Upload } from "@nextgisweb/gui/antd";
+import { ImageModal } from "@nextgisweb/gui/image-modal";
+import { ImageModalWrapper } from "./ImageModalWrapper";
 import { formatSize } from "@nextgisweb/gui/util";
 import { routeURL } from "@nextgisweb/pyramid/api";
 import { gettext } from "@nextgisweb/pyramid/i18n";
@@ -118,6 +120,15 @@ const AttachmentEditor = observer(
                                 render: (_, row) => {
                                     const r = row as DataSource;
                                     if ("is_image" in r && r.is_image) {
+                                        console.log(r);
+                                        let projection: string | null = null;
+                                        if ("file_meta" in r) {
+                                            try {
+                                                projection = r.file_meta.panorama.ProjectionType;
+                                            } catch (error) {
+                                                // pass
+                                            };
+                                        }
                                         const url = routeURL(
                                             "feature_attachment.image",
                                             {
@@ -126,13 +137,11 @@ const AttachmentEditor = observer(
                                                 aid: r.id,
                                             }
                                         );
-                                        return (
-                                            <Image
-                                                width={80}
-                                                src={`${url}?size=80x80`}
-                                                preview={{ src: url }}
-                                            />
-                                        );
+                                        return <ImageModalWrapper
+                                            {...{ url, projection, }}
+                                            previewSize="80x80"
+                                        />
+
                                     } else if (
                                         "_file" in r &&
                                         r._file instanceof File &&
