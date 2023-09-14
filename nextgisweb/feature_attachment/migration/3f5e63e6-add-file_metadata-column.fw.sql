@@ -4,5 +4,5 @@
     "message": "Add file_metadata column"
 } ***/
 
-ALTER TABLE feature_attachment ADD COLUMN file_metadata jsonb
+ALTER TABLE feature_attachment ADD COLUMN file_meta jsonb
 
