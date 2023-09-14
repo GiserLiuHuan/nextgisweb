@@ -58,13 +58,13 @@ class FeatureAttachment(Base):
                     xmp = image.getxmp()
                     exif = image.getexif()
                     _file_meta["timestamp"] = exif.get(306)  # Timestamp EXIF tag
-                    projection = xmp["xmpmeta"]["RDF"]["Description"].get("ProjectionType")
+                    projection = xmp.get("xmpmeta").get("RDF").get("Description").get("ProjectionType") 
                     if projection:
                         _file_meta["panorama"] = {"ProjectionType": projection}
                     self.file_meta = _file_meta
                 except Exception:
                     self.file_meta = {}
-                    warnings.warn("Image has no XMP metadata", UserWarning, 2)
+                    warnings.warn("Something went wrong trying to read Image XMP metadata", UserWarning, 2)
 
                     
 
