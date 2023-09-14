@@ -53,6 +53,14 @@ class FeatureAttachment(Base):
         if self.file_meta is None:
             _file_meta = {}
             if self.is_image:
+                image = Image.open(env.file_storage.filename(self.fileobj))
+                xmp = image.getxmp()
+                exif = image.getexif()
+                _file_meta["timestamp"] = exif.get(306)  # Timestamp EXIF tag
+                projection = xmp["xmpmeta"]["RDF"]["Description"].get("ProjectionType")
+                if projection:
+                    _file_meta["GPano"] = {"ProjectionType": projection}
+                self.file_meta = _file_meta
                 try:
                     image = Image.open(env.file_storage.filename(self.fileobj))
                     xmp = image.getxmp()
