@@ -3,6 +3,7 @@ import os
 import re
 from PIL import Image
 from shutil import copyfileobj
+import warnings
 
 from nextgisweb.env import Base, env
 from nextgisweb.lib import db
@@ -52,14 +53,20 @@ class FeatureAttachment(Base):
         if self.file_meta is None:
             _file_meta = {}
             if self.is_image:
-                image = Image.open(env.file_storage.filename(self.fileobj))
-                xmp = image.getxmp()
-                exif = image.getexif()
-                _file_meta["timestamp"] = exif.get(306)  # Timestamp EXIF tag
-                projection = xmp["xmpmeta"]["RDF"]["Description"].get("ProjectionType")
-                if projection:
-                    _file_meta["panorama"] = {"ProjectionType": projection}
-                self.file_meta = _file_meta
+                try:
+                    image = Image.open(env.file_storage.filename(self.fileobj))
+                    xmp = image.getxmp()
+                    exif = image.getexif()
+                    _file_meta["timestamp"] = exif.get(306)  # Timestamp EXIF tag
+                    projection = xmp["xmpmeta"]["RDF"]["Description"].get("ProjectionType")
+                    if projection:
+                        _file_meta["panorama"] = {"ProjectionType": projection}
+                    self.file_meta = _file_meta
+                except Exception:
+                    self.file_meta = {}
+                    warnings.warn("Image has no XMP metadata", UserWarning, 2)
+
+                    
 
     def maintenance(self):
         super().maintenance()
