@@ -170,10 +170,11 @@ def test_import_multiple(layer_id, ngw_webtest_app):
     assert resp.json == dict(imported=1, skipped=1)
 
 # name = '{feature_id}/{file_name}'
+# TODO: Update whenever the structure of file_meta changes; add images without xmp meta
 def test_import_image(layer_id, clear, ngw_webtest_app):
     file_path = DATA_PATH / 'panorama-image.jpg'
     with open(file_path, mode='rb') as f:
-        files = (dict(name='00003/image', content=f.read())) 
+        files = [dict(name='00003/image', content=f.read())] # fails to work as a tuple for whatever reason
         upload_meta = generate_archive(files, ngw_webtest_app)
         resp = ngw_webtest_app.put_json(
             f'/api/resource/{layer_id}/feature_attachment/import',
@@ -182,11 +183,16 @@ def test_import_image(layer_id, clear, ngw_webtest_app):
         )
         assert resp.json == dict(imported=1, skipped=0)
 
-    with transaction.manager:
-        assert (
-            FeatureAttachment.filter_by(resource_id=layer_id, feature_id=3)
-            .one()
-            .file_meta['panorama']
-            is not None
+        image = Image.open(f)
+        xmp = image.getxmp()
+        exif = image.getexif()
+        timestamp = exif.get(306)  # Timestamp EXIF tag
+        projection = (
+            xmp.get('xmpmeta').get('RDF').get('Description').get('ProjectionType')
         )
-
+        with transaction.manager:
+            file_meta = FeatureAttachment.filter_by(resource_id=layer_id, feature_id=3).one().file_meta
+            assert file_meta['timestamp'] == timestamp
+            assert (
+               file_meta['panorama'] == {'ProjectionType': projection}
+            )
