@@ -1,9 +1,10 @@
 import io
 import os
 import re
-from PIL import Image
-from shutil import copyfileobj
 import warnings
+from shutil import copyfileobj
+
+from PIL import Image
 
 from nextgisweb.env import Base, env
 from nextgisweb.lib import db
@@ -56,27 +57,17 @@ class FeatureAttachment(Base):
                 image = Image.open(env.file_storage.filename(self.fileobj))
                 xmp = image.getxmp()
                 exif = image.getexif()
-                _file_meta["timestamp"] = exif.get(306)  # Timestamp EXIF tag
-                projection = xmp["xmpmeta"]["RDF"]["Description"].get("ProjectionType")
-                if projection:
-                    _file_meta["panorama"] = {"ProjectionType": projection}
-                self.file_meta = _file_meta
-                try:
-                    image = Image.open(env.file_storage.filename(self.fileobj))
-                    xmp = image.getxmp()
-                    exif = image.getexif()
+                if exif:
                     _file_meta["timestamp"] = exif.get(306)  # Timestamp EXIF tag
+                if xmp:
                     projection = (
                         xmp.get("xmpmeta").get("RDF").get("Description").get("ProjectionType")
                     )
                     if projection:
                         _file_meta["panorama"] = {"ProjectionType": projection}
-                    self.file_meta = _file_meta
-                except Exception:
-                    self.file_meta = {}
-                    warnings.warn(
-                        "Something went wrong trying to read Image XMP metadata", UserWarning, 2
-                    )
+            self.file_meta = _file_meta
+
+
 
     def maintenance(self):
         super().maintenance()
@@ -115,7 +106,12 @@ class FeatureAttachment(Base):
 
             with io.open(srcfile, "rb") as fs, io.open(dstfile, "wb") as fd:
                 copyfileobj(fs, fd)
+            with io.open(srcfile, "rb") as fs, io.open(dstfile, "wb") as fd:
+                copyfileobj(fs, fd)
 
+            for k in ("name", "mime_type"):
+                if k in file_upload:
+                    setattr(self, k, file_upload[k])
             for k in ("name", "mime_type"):
                 if k in file_upload:
                     setattr(self, k, file_upload[k])

@@ -1,0 +1,43 @@
+import { lazy } from "react";
+
+import type { FeatureAttachment } from "../../type";
+import { useFeatureImage } from "../hook/useFeatureImage";
+const PhotospherePreview = lazy(() => import("./PhotospherePreview"));
+
+interface ImagePreviewProps {
+    attachment: FeatureAttachment;
+    resourceId: number;
+    featureId: number;
+    togglePanorama: boolean;
+}
+
+export function ImagePreview({
+    attachment,
+    resourceId,
+    featureId,
+    togglePanorama,
+}: ImagePreviewProps) {
+    const { url, projection } = useFeatureImage({
+        attachment,
+        resourceId,
+        featureId,
+    });
+
+    if (projection && togglePanorama) {
+        return <PhotospherePreview url={url} />;
+    }
+
+    return (
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+                width: "100vw",
+            }}
+        >
+            <img src={url} style={{ maxHeight: "100vh", height: "100%" }} />
+        </div>
+    );
+}

@@ -1,5 +1,8 @@
 {
     "name": "@nextgisweb/feature_attachment",
     "version": "0.0.0",
-    "type": "module"
+    "type": "module",
+    "dependencies": {
+        "@splidejs/react-splide": ">=0.7.12"
+    }
 }
