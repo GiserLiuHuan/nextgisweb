@@ -37,7 +37,7 @@ export function ImagePreview({
                 width: "100vw",
             }}
         >
-            <img src={url} style={{ maxHeight: "100vh", height: "100%" }} />
+            <img src={url} style={{ maxHeight: "100vh" }} />
         </div>
     );
 }
