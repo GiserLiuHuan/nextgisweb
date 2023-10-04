@@ -1,13 +1,12 @@
-import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide";
-import { useState, useRef, useLayoutEffect } from "react";
-import { FloatButton } from "antd";
+import { useState } from "react";
+import { FloatButton, Carousel } from "@nextgisweb/gui/antd";
 
 import i18n from "@nextgisweb/pyramid/i18n";
 import PhotosphereIcon from "@nextgisweb/icon/material/panorama";
+import { ImagePreview } from "./ImagePreview";
 
 import type { DataSource } from "../../attachment-editor/type";
 import type { FeatureAttachment } from "../../type";
-import { ImagePreview } from "./ImagePreview";
 
 import "@splidejs/react-splide/css";
 import "./CarouselRender.less";
@@ -32,14 +31,9 @@ export function CarouselRender({
         }
         return false;
     });
-    const startSlide = imageList.indexOf(attachment);
-    console.log(startSlide);
-    const splider = useRef(null);
-    useLayoutEffect(() => {
-        if (splider.current) {
-            splider.current.splide.go(startSlide);
-        }
-    });
+    const [start] = useState(() =>
+        imageList.findIndex((l) => l.id === attachment.id)
+    );
     return (
         <div className="SliderContainer">
             <FloatButton
@@ -50,45 +44,20 @@ export function CarouselRender({
                     setTogglePanorama(!togglePanorama);
                 }}
             />
-
-            <Splide
-                ref={splider}
-                options={{
-                    type: "slide",
-                    width: "100vw",
-                    height: "100vh",
-                    pagination: true,
-                    drag: false,
-                    perPage: 1,
-                    perMove: 1,
-                }}
-                hasTrack={false}
-            >
-                <div className="splider-wrapper">
-                    <SplideTrack>
-                        {imageList.map((d, index) => {
-                            const a = d as FeatureAttachment;
-                            return (
-                                <SplideSlide
-                                    key={index}
-                                    style={{ justifyContent: "center" }}
-                                >
-                                    <ImagePreview
-                                        attachment={a}
-                                        featureId={featureId}
-                                        resourceId={resourceId}
-                                        togglePanorama={togglePanorama}
-                                    />
-                                </SplideSlide>
-                            );
-                        })}
-                    </SplideTrack>
-                    <div
-                        className="splide__arrows"
-                        style={{ width: "100vw" }}
-                    />
-                </div>
-            </Splide>
+            <Carousel initialSlide={start}>
+                {imageList.map((d, index) => {
+                    const a = d as FeatureAttachment;
+                    return (
+                        <ImagePreview
+                            key={index}
+                            attachment={a}
+                            featureId={featureId}
+                            resourceId={resourceId}
+                            togglePanorama={togglePanorama}
+                        />
+                    );
+                })}
+            </Carousel>
         </div>
     );
 }

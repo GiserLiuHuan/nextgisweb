@@ -1,22 +1,29 @@
 import { observer } from "mobx-react-lite";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useRef } from "react";
 
 import type { EditorWidgetProps } from "@nextgisweb/feature-layer/feature-editor/type";
 import { useFileUploader } from "@nextgisweb/file-upload";
 import { FileUploaderButton } from "@nextgisweb/file-upload/file-uploader";
 import type { UploaderMeta } from "@nextgisweb/file-upload/file-uploader/type";
 import { ActionToolbar } from "@nextgisweb/gui/action-toolbar";
-import { Button, Input, Table, Upload } from "@nextgisweb/gui/antd";
+import { Button, Input, Modal, Table, Upload } from "@nextgisweb/gui/antd";
 
 import { formatSize } from "@nextgisweb/gui/util";
-import { routeURL } from "@nextgisweb/pyramid/api";
-import { gettext } from "@nextgisweb/pyramid/i18n";
+import showModal from "@nextgisweb/gui/showModal";
+import i18n from "@nextgisweb/pyramid/i18n";
 
-import AttachmentEditorStore from "./AttachmentEditorStore";
+import { ImageModal } from "../image-modal/ImageModal";
+import { CarouselRender } from "../image-modal/component/CarouselRender";
+
 import { FileReaderImage } from "./component/FileReaderImage";
 import type { DataSource } from "./type";
 
 import DeleteIcon from "@nextgisweb/icon/material/clear";
+
+import type { ShowModalOptions } from "@nextgisweb/gui/showModal";
+import type { EditorWidgetProps } from "@nextgisweb/feature-layer/feature-editor/type";
+import type { UploaderMeta } from "@nextgisweb/file-upload/file-uploader/type";
+import type { DataSource } from "./type";
 
 import "./AttachmentEditor.less";
 
@@ -31,6 +38,7 @@ const AttachmentEditor = observer(
         const multiple = true;
 
         const [width] = useState(80);
+        const previewRef = useRef<HTMLDivElement>(null);
 
         const [store_] = useState<AttachmentEditorStore>(() => {
             if (store) {
@@ -121,13 +129,46 @@ const AttachmentEditor = observer(
                                 render: (_, row) => {
                                     const r = row as DataSource;
                                     if ("is_image" in r && r.is_image) {
+                                        const ModalComponent = ({
+                                            open,
+                                            close,
+                                        }: ShowModalOptions) => (
+                                            <Modal
+                                                open={open}
+                                                destroyOnClose
+                                                footer={null}
+                                                closable={false}
+                                                onCancel={close}
+                                            >
+                                                <CarouselRender
+                                                    data={dataSource}
+                                                    attachment={r}
+                                                    resourceId={
+                                                        store_.resourceId
+                                                    }
+                                                    featureId={store_.featureId}
+                                                ></CarouselRender>
+                                            </Modal>
+                                        );
                                         return (
                                             <ImageModal
                                                 attachment={r}
                                                 resourceId={store_.resourceId}
                                                 featureId={store_.featureId}
-                                                data={dataSource}
                                                 width={width}
+                                                onClick={() => {
+                                                    const container =
+                                                        previewRef.current;
+                                                    if (container) {
+                                                        showModal(
+                                                            ModalComponent,
+                                                            {
+                                                                getContainer:
+                                                                    container,
+                                                            }
+                                                        );
+                                                    }
+                                                }}
                                             />
                                         );
                                     } else if (
@@ -180,6 +221,7 @@ const AttachmentEditor = observer(
                         size="small"
                     />
                 </Upload>
+                <div ref={previewRef}></div>
             </div>
         );
     }
