@@ -60,3 +60,34 @@
         }
     }
 }
+
+.carousel-modal {
+    background-color: transparent;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    margin: 0;
+    > .ant-modal-content {
+        background-color: transparent;
+        box-shadow: none;
+        height: 100vh;
+        width: 100vw;
+        padding: 0;
+        overflow: hidden;
+        > .ant-modal-body > .carousel-container > .ant-carousel > .slick-slider >  .slick-list {
+            height: 100vh;
+
+            > .slick-track {
+                display: flex !important;
+                align-items: center !important;
+            }
+        }
+    
+        > .slick-dots-bottom {
+            position: absolute;
+            bottom: 20px
+        }
+    }
+    
+
+} 

@@ -12,8 +12,8 @@ import { formatSize } from "@nextgisweb/gui/util";
 import showModal from "@nextgisweb/gui/showModal";
 import i18n from "@nextgisweb/pyramid/i18n";
 
-import { ImageModal } from "../image-modal/ImageModal";
-import { CarouselRender } from "../image-modal/component/CarouselRender";
+import { ImageThumbnail } from "../image-thumbnail/ImageThumbnail";
+import { CarouselRender } from "../image-thumbnail/component/CarouselRender";
 
 import { FileReaderImage } from "./component/FileReaderImage";
 import type { DataSource } from "./type";
@@ -134,6 +134,7 @@ const AttachmentEditor = observer(
                                             close,
                                         }: ShowModalOptions) => (
                                             <Modal
+                                                className="carousel-modal"
                                                 open={open}
                                                 destroyOnClose
                                                 footer={null}
@@ -151,7 +152,7 @@ const AttachmentEditor = observer(
                                             </Modal>
                                         );
                                         return (
-                                            <ImageModal
+                                            <ImageThumbnail
                                                 attachment={r}
                                                 resourceId={store_.resourceId}
                                                 featureId={store_.featureId}
