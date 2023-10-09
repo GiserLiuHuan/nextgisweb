@@ -62,32 +62,44 @@
 }
 
 .carousel-modal {
-    background-color: transparent;
-    height: 100vh;
-    width: 100vw;
     top: 0;
     margin: 0;
+    background-color: transparent;
+    width: 100vw;
+    height: 100vh;
     > .ant-modal-content {
-        background-color: transparent;
         box-shadow: none;
-        height: 100vh;
-        width: 100vw;
+        background-color: transparent;
         padding: 0;
+        width: 100vw;
+        height: 100vh;
         overflow: hidden;
-        > .ant-modal-body > .carousel-container > .ant-carousel > .slick-slider >  .slick-list {
-            height: 100vh;
+        > .ant-modal-body
+            > .carousel-container
+            > .ant-carousel
+            > .slick-slider {
+            > .icon {
+                position: absolute;
+                top: 50%;
+                right: 12px;
+                border-radius: 100%;
+                background-color: rgba(0, 0, 0, 0.2);
+                color: white;
+                font-size: 30px;
+            }
+            > .slick-list {
+                height: 100vh;
 
-            > .slick-track {
-                display: flex !important;
-                align-items: center !important;
+                > .slick-track {
+                    display: flex !important;
+                    align-items: center !important;
+                }
             }
         }
-    
+
         > .slick-dots-bottom {
             position: absolute;
-            bottom: 20px
+            bottom: 20px;
         }
     }
-    
-
-} 
+}

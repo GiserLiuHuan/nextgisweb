@@ -1,3 +1,22 @@
-.splide__pagination {
-    display: flex;
+> .carousel-container > .ant-carousel > .slick-slider {
+    > .slick-arrow .slick-arrow::before {
+        border-radius: 100%;
+        background-color: #00000073;
+    }
+    .slick-arrow:hover {
+        background-color: rgba(0, 0, 0, 1);
+    }
+    > .slick-list {
+        height: 100vh;
+
+        > .slick-track {
+            display: flex !important;
+            align-items: center !important;
+        }
+    }
+}
+
+> .slick-dots-bottom {
+    position: absolute;
+    bottom: 20px;
 }
