@@ -38,29 +38,51 @@ export const ImageThumbnail = ({
 
     return (
         <div
+            className="image-thumbnail-container"
+            style={{
+                margin: "8px",
+                width: width,
+                height: "auto",
+                display: "flex",
+            }}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
+            onClick={() => {
+                if (onClick) onClick(attachment);
+            }}
         >
-            <Image
+            <img
                 className="image-thumbnail"
-                preview={false}
-                width={width}
+                width="100%"
+                height="auto"
                 src={`${url}?size=${previewSize}`}
-                onClick={() => {
-                    if (onClick) onClick(attachment);
-                }}
-            ></Image>
-            <span
-                className="image-thumbnail-preview-text"
+            />
+            <div
                 style={{
+                    height: "auto",
+                    width: "inherit ",
                     position: "absolute",
                     textAlign: "center",
-                    top: "50%",
-                    left: "50%",
+                    color: "white",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                 }}
             >
-                {i18n.gettext("Preview")}
-            </span>
+                <div
+                    className="image-thumbnail-preview-text"
+                    style={{
+                        position: "absolute",
+                        textAlign: "center",
+                        color: "white",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <span> </span> {i18n.gettext("Preview")}
+                </div>
+            </div>
         </div>
     );
 };
