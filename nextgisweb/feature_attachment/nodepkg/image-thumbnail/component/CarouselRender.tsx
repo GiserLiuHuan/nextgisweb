@@ -50,7 +50,11 @@ export function CarouselRender({
         <div className="carousel-container">
             <FloatButton
                 type={togglePanorama ? "primary" : "default"}
-                tooltip={i18n.gettext("Panorama mode")}
+                tooltip={
+                    togglePanorama
+                        ? i18n.gettext("Exit panorama mode")
+                        : i18n.gettext("Panorama mode")
+                }
                 icon={<PhotosphereIcon />}
                 onClick={() => {
                     setTogglePanorama(!togglePanorama);
