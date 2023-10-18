@@ -4,22 +4,24 @@ import { routeURL } from "@nextgisweb/pyramid/api";
 
 import type { FeatureAttachment } from "../../type";
 
-interface UseFeatureImageProps {
+interface GetFeatureImageProps {
     resourceId: number;
     featureId: number;
     attachment: FeatureAttachment;
 }
 
-export function useFeatureImage({
+export function GetFeatureImage({
     resourceId,
     featureId,
     attachment,
-}: UseFeatureImageProps) {
-    const url = routeURL("feature_attachment.image", {
-        id: resourceId,
-        fid: featureId,
-        aid: attachment.id,
-    });
+}: GetFeatureImageProps) {
+    const url = useMemo(() => {
+        return routeURL("feature_attachment.image", {
+            id: resourceId,
+            fid: featureId,
+            aid: attachment.id,
+        });
+    }, [resourceId, featureId, attachment]);
 
     let projection: string | null = null;
     if ("file_meta" in attachment) {
@@ -29,6 +31,10 @@ export function useFeatureImage({
             // pass
         }
     }
+    let isPanorama = false;
+    if (projection === "equirectangular") {
+        isPanorama = true;
+    }
 
-    return { url, projection };
+    return { url, isPanorama };
 }

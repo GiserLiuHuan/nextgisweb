@@ -61,7 +61,7 @@
     }
 }
 
-.carousel-modal {
+.ngw-feature-attachment-carousel-modal {
     top: 0;
     margin: 0;
     background-color: transparent;
@@ -74,8 +74,13 @@
         width: 100vw;
         height: 100vh;
         overflow: hidden;
+        > .ant-modal-close {
+            height: 32px;
+            width: 32px;
+            border-radius: 100%;
+        }
         > .ant-modal-body
-            > .carousel-container
+            > .ngw-feature-attachment-carousel-container
             > .ant-carousel
             > .slick-slider {
             > .icon {
@@ -90,9 +95,12 @@
             > .slick-list {
                 height: 100vh;
 
-                > .slick-track {
+                > .slick-track > .slick-slide {
                     display: flex !important;
                     align-items: center !important;
+                    justify-content: center !important;
+                    height: 100vh;
+                    width: 100vw;
                 }
             }
         }

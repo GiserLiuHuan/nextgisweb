@@ -1,19 +1,22 @@
-import { useState } from "react";
+import { Suspense, lazy, useState } from "react";
+import type { CSSProperties } from "react";
 
-import { Carousel, FloatButton } from "@nextgisweb/gui/antd";
+import { Carousel, FloatButton, Image, Spin } from "@nextgisweb/gui/antd";
 import i18n from "@nextgisweb/pyramid/i18n";
 
 import type { DataSource } from "../../attachment-editor/type";
 import type { FeatureAttachment } from "../../type";
+import { GetFeatureImage } from "../util/GetFeatureImage";
 
-import { ImagePreview } from "./ImagePreview";
-
+import { LoadingOutlined } from "@ant-design/icons";
 import ArrowBack from "@nextgisweb/icon/material/arrow_back";
 import ArrowForward from "@nextgisweb/icon/material/arrow_forward";
 import PhotosphereIcon from "@nextgisweb/icon/material/panorama";
 
 // import "@splidejs/react-splide/css";
 import "./CarouselRender.less";
+
+const PhotospherePreview = lazy(() => import("./PhotospherePreview"));
 
 interface CarouselRenderProps {
     attachment: FeatureAttachment;
@@ -39,6 +42,7 @@ export function CarouselRender({
     };
 
     const [togglePanorama, setTogglePanorama] = useState(false);
+
     const imageList = data.filter((d) => {
         if ("is_image" in d) {
             return d.is_image;
@@ -48,10 +52,29 @@ export function CarouselRender({
     const [start] = useState(() =>
         imageList.findIndex((l: FeatureAttachment) => l.id === attachment.id)
     );
+
+    const urlPanoramas = imageList.map((d) => {
+        const a = d as FeatureAttachment;
+        return GetFeatureImage({
+            attachment: a,
+            resourceId,
+            featureId,
+        });
+    });
+    const [visibility, setVisibility] = useState<CSSProperties>(() => {
+        return urlPanoramas[start].isPanorama
+            ? { visibility: "visible" }
+            : { visibility: "hidden" };
+    });
     return (
-        <div className="carousel-container">
+        <div className="ngw-feature-attachment-carousel-container">
+            {/* {urlPanoramas.map(({ url, isPanorama }, index) => {
+                const conditionalVisibility: CSSProperties = {
+                    visibility: isPanorama ? "visible" : "hidden",
+                }; */}
             <FloatButton
                 type={togglePanorama ? "primary" : "default"}
+                style={visibility}
                 tooltip={
                     togglePanorama
                         ? i18n.gettext("Exit panorama mode")
@@ -66,6 +89,14 @@ export function CarouselRender({
                 initialSlide={start}
                 arrows={true}
                 dots={true}
+                lazyLoad="progressive"
+                afterChange={(currentSlide) => {
+                    setVisibility(
+                        urlPanoramas[currentSlide].isPanorama
+                            ? { visibility: "visible" }
+                            : { visibility: "hidden" }
+                    );
+                }}
                 nextArrow={
                     <SlickButtonFix>
                         <ArrowForward
@@ -99,16 +130,43 @@ export function CarouselRender({
                     </SlickButtonFix>
                 }
             >
-                {imageList.map((d, index) => {
-                    const a = d as FeatureAttachment;
+                {urlPanoramas.map(({ url, isPanorama }, index) => {
                     return (
-                        <ImagePreview
+                        <div
+                            className={"ngw-feature-attachment-carousel-slide"}
                             key={index}
-                            attachment={a}
-                            featureId={featureId}
-                            resourceId={resourceId}
-                            togglePanorama={togglePanorama}
-                        />
+                            style={{ height: "100vh", width: "100vw" }}
+                        >
+                            {togglePanorama && isPanorama ? (
+                                <Suspense
+                                    fallback={
+                                        <Spin
+                                            indicator={
+                                                <LoadingOutlined
+                                                    style={{ fontSize: 24 }}
+                                                    spin={true}
+                                                />
+                                            }
+                                        />
+                                    }
+                                >
+                                    <PhotospherePreview url={url} />;
+                                </Suspense>
+                            ) : (
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    <Image
+                                        src={url}
+                                        preview={false}
+                                        style={{ maxHeight: "100vh" }}
+                                    />
+                                </div>
+                            )}
+                        </div>
                     );
                 })}
             </Carousel>
