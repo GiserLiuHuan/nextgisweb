@@ -68,10 +68,6 @@ export function CarouselRender({
     });
     return (
         <div className="ngw-feature-attachment-carousel-container">
-            {/* {urlPanoramas.map(({ url, isPanorama }, index) => {
-                const conditionalVisibility: CSSProperties = {
-                    visibility: isPanorama ? "visible" : "hidden",
-                }; */}
             <FloatButton
                 type={togglePanorama ? "primary" : "default"}
                 style={visibility}
@@ -109,6 +105,7 @@ export function CarouselRender({
                                 zIndex: "100",
                                 backgroundColor: "#00000073",
                                 borderRadius: "100%",
+                                pointerEvents: "all",
                             }}
                         />
                     </SlickButtonFix>
@@ -125,6 +122,7 @@ export function CarouselRender({
                                 zIndex: "100",
                                 backgroundColor: "#00000073",
                                 borderRadius: "100%",
+                                pointerEvents: "all",
                             }}
                         />
                     </SlickButtonFix>
@@ -157,6 +155,7 @@ export function CarouselRender({
                                     style={{
                                         display: "flex",
                                         justifyContent: "center",
+                                        pointerEvents: "auto",
                                     }}
                                 >
                                     <Image
