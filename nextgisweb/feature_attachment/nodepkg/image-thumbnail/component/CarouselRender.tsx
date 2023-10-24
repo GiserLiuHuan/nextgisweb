@@ -35,10 +35,13 @@ export function CarouselRender({
     const SlickButtonFix = (
         props: {
             children: JSX.Element;
+            currentSlide?: number;
+            slideCount?: number;
         } & object
     ) => {
-        const { children, ...otherProps } = props;
-        return <span {...otherProps}>{children}</span>;
+        //
+        const { children, currentSlide, slideCount, ...otherProps } = props;
+        return <div {...otherProps}>{children}</div>;
     };
 
     const [togglePanorama, setTogglePanorama] = useState(false);
