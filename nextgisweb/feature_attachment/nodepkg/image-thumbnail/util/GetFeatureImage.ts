@@ -8,14 +8,18 @@ interface GetFeatureImageProps {
     resourceId: number;
     featureId: number;
     attachment: FeatureAttachment;
+    height?: number;
+    width?: number;
 }
 
 export function GetFeatureImage({
     resourceId,
     featureId,
     attachment,
+    height,
+    width,
 }: GetFeatureImageProps) {
-    const url = useMemo(() => {
+    let url = useMemo(() => {
         return routeURL("feature_attachment.image", {
             id: resourceId,
             fid: featureId,
@@ -34,6 +38,9 @@ export function GetFeatureImage({
     let isPanorama = false;
     if (projection === "equirectangular") {
         isPanorama = true;
+    }
+    if (height && width) {
+        url = url + `?size=${width}x${height}`;
     }
 
     return { url, isPanorama };
