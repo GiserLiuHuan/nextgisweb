@@ -23,6 +23,7 @@ import DeleteIcon from "@nextgisweb/icon/material/clear";
 import Close from "@nextgisweb/icon/material/close";
 
 import "./AttachmentEditor.less";
+import { CarouselModal } from "../image-thumbnail/component/CarouselModal";
 
 export function isFileImage(file: File) {
     return file && file["type"].split("/")[0] === "image";
@@ -126,41 +127,6 @@ const AttachmentEditor = observer(
                                 render: (_, row) => {
                                     const r = row as DataSource;
                                     if ("is_image" in r && r.is_image) {
-                                        const ModalComponent = ({
-                                            open,
-                                            close,
-                                        }: ShowModalOptions) => (
-                                            <Modal
-                                                className="ngw-feature-attachment-carousel-modal"
-                                                open={open}
-                                                destroyOnClose
-                                                footer={null}
-                                                mask={true}
-                                                maskClosable={true}
-                                                closeIcon={
-                                                    <Close
-                                                        style={{
-                                                            fontSize: "32px",
-                                                            color: "white",
-                                                            backgroundColor:
-                                                                "#00000073",
-                                                            borderRadius:
-                                                                "100%",
-                                                        }}
-                                                    />
-                                                }
-                                                onCancel={close}
-                                            >
-                                                <CarouselRender
-                                                    data={dataSource}
-                                                    attachment={r}
-                                                    resourceId={
-                                                        store_.resourceId
-                                                    }
-                                                    featureId={store_.featureId}
-                                                ></CarouselRender>
-                                            </Modal>
-                                        );
                                         return (
                                             <ImageThumbnail
                                                 attachment={r}
@@ -172,8 +138,14 @@ const AttachmentEditor = observer(
                                                         previewRef.current;
                                                     if (container) {
                                                         showModal(
-                                                            ModalComponent,
+                                                            CarouselModal,
                                                             {
+                                                                dataSource,
+                                                                attachment: r,
+                                                                featureId:
+                                                                    store_.featureId,
+                                                                resourceId:
+                                                                    store_.resourceId,
                                                                 getContainer:
                                                                     container,
                                                             }

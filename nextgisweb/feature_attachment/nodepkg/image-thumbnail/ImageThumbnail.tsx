@@ -14,12 +14,14 @@ export type ImageThumbnailProps = {
     featureId: number;
     previewSize?: string;
     width?: number;
+    height?: number;
     onClick?: (attachment: FeatureAttachment) => void;
 };
 
 export const ImageThumbnail = ({
     onClick,
     width = 80,
+    height,
     featureId,
     resourceId,
     attachment,
@@ -28,7 +30,7 @@ export const ImageThumbnail = ({
         featureId,
         resourceId,
         attachment,
-        height: width,
+        height: height,
         width: width,
     });
     return (
