@@ -166,6 +166,24 @@ class CoreComponent(StorageComponentMixin, Component):
 
         sa_engine.dispose()
 
+        if (
+            (delta := self.options["healthcheck.maintenance_delta"]) is not None
+            and (last := self.settings_get(self.identity, "last_maintenance", None)) is not None
+            and (datetime.utcnow() - datetime.fromisoformat(last)) > delta
+        ):
+            return dict(
+                success=False,
+                message="Maintenance has not been performed on web GIS for a long time.")
+
+        if (
+            (delta := self.options["healthcheck.backup_delta"]) is not None
+            and (last := self.settings_get(self.identity, "last_backup", None)) is not None
+            and (datetime.utcnow() - datetime.fromisoformat(last)) > delta
+        ):
+            return dict(
+                success=False,
+                message="Backup has not been performed on web GIS for a long time.")
+
         return dict(success=True)
 
     def initialize_db(self):
@@ -497,6 +515,10 @@ class CoreComponent(StorageComponentMixin, Component):
             "Free space check during healthcheck in percent (0 for don't check).")),
         Option("healthcheck.free_inodes", float, default=10, doc=(
             "Free inodes check during healthcheck in percent (0 for don't check).")),
+        Option("healthcheck.maintenance_delta", timedelta, default=None, doc=(
+            "Safe last maintenance time delta.")),
+        Option("healthcheck.backup_delta", timedelta, default=None, doc=(
+            "Safe last backup time delta.")),
         # Locale settings
         Option("locale.default", default="en"),
         Option("locale.available", list, default=None),
