@@ -37,7 +37,6 @@ export function CarouselRender({
     const splider = useRef(null);
     useLayoutEffect(() => {
         if (splider.current) {
-            console.log(splider.current.getBoundingClientRect().width);
             splider.current.splide.go(startSlide);
         }
     });
