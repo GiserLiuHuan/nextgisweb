@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-
 import { routeURL } from "@nextgisweb/pyramid/api";
 
 import type { FeatureAttachment } from "../../type";
@@ -12,20 +10,18 @@ interface GetFeatureImageProps {
     width?: number;
 }
 
-export function GetFeatureImage({
+export function getFeatureImage({
     resourceId,
     featureId,
     attachment,
     height,
     width,
 }: GetFeatureImageProps) {
-    let url = useMemo(() => {
-        return routeURL("feature_attachment.image", {
-            id: resourceId,
-            fid: featureId,
-            aid: attachment.id,
-        });
-    }, [resourceId, featureId, attachment]);
+    const imageUrl = routeURL("feature_attachment.image", {
+        id: resourceId,
+        fid: featureId,
+        aid: attachment.id,
+    });
 
     let projection: string | null = null;
     if ("file_meta" in attachment) {
@@ -35,13 +31,11 @@ export function GetFeatureImage({
             // pass
         }
     }
-    let isPanorama = false;
-    if (projection === "equirectangular") {
-        isPanorama = true;
-    }
-    if (height && width) {
-        url = url + `?size=${width}x${height}`;
-    }
+
+    const sizeRequest = width && height ? `?size=${width}x${height}` : "";
+    const url = imageUrl + sizeRequest;
+
+    const isPanorama = projection === "equirectangular";
 
     return { url, isPanorama };
 }
