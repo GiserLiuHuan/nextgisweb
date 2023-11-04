@@ -2,6 +2,7 @@ import { Viewer } from "@photo-sphere-viewer/core";
 import { useEffect, useRef } from "react";
 
 import "@photo-sphere-viewer/core/index.css";
+import "./PhotospherePreview.less";
 
 interface PhotospherePreviewProps {
     url: string;
@@ -17,6 +18,7 @@ export default function PhotospherePreview({ url }: PhotospherePreviewProps) {
                 container: photosphereWrapper.current,
                 panorama: url,
                 size: { height: "100vh", width: "100vw" },
+                navbar: ["zoom", "fullscreen"],
             });
         }
 
