@@ -8,21 +8,12 @@ import { message } from "@nextgisweb/gui/antd";
 import { route } from "@nextgisweb/pyramid/api";
 import { gettext } from "@nextgisweb/pyramid/i18n";
 import { AbortControllerHelper } from "@nextgisweb/pyramid/util/abort";
-
-import { message } from "@nextgisweb/gui/antd";
-
-import { gettext } from "@nextgisweb/pyramid/i18n";
-import { errorModal } from "@nextgisweb/gui/error";
-
 import type { ResourceItem } from "@nextgisweb/resource/type/Resource";
-import type {
-    FeatureLayerField,
-    FeatureItemExtensions,
-} from "@nextgisweb/feature-layer/type";
-import type { ApiError } from "@nextgisweb/gui/error/type";
-import type { FeatureEditorStoreOptions } from "./type";
-import type { FeatureItem as FeatureItem_, EditorStore } from "../type";
+
 import type { NgwAttributeValue } from "../attribute-editor/type";
+import type { EditorStore, FeatureItem as FeatureItem_ } from "../type";
+
+import type { FeatureEditorStoreOptions } from "./type";
 
 type FeatureItem = FeatureItem_<NgwAttributeValue>;
 
@@ -140,8 +131,6 @@ export class FeatureEditorStore {
             const resp = await this._initialize();
             message.success(msgSaved);
             return resp;
-        } catch (err) {
-            errorModal(err as ApiError);
         } finally {
             runInAction(() => {
                 this.saving = false;

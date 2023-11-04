@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { FloatButton, Carousel } from "@nextgisweb/gui/antd";
 
+import { Carousel, FloatButton } from "@nextgisweb/gui/antd";
 import i18n from "@nextgisweb/pyramid/i18n";
-import PhotosphereIcon from "@nextgisweb/icon/material/panorama";
-import ArrowBack from "@nextgisweb/icon/material/arrow_back";
-import ArrowForward from "@nextgisweb/icon/material/arrow_forward";
-import { ImagePreview } from "./ImagePreview";
 
 import type { DataSource } from "../../attachment-editor/type";
 import type { FeatureAttachment } from "../../type";
+
+import { ImagePreview } from "./ImagePreview";
+
+import ArrowBack from "@nextgisweb/icon/material/arrow_back";
+import ArrowForward from "@nextgisweb/icon/material/arrow_forward";
+import PhotosphereIcon from "@nextgisweb/icon/material/panorama";
 
 // import "@splidejs/react-splide/css";
 import "./CarouselRender.less";
