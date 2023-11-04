@@ -29,7 +29,7 @@ export default function PhotospherePreview({ url }: PhotospherePreviewProps) {
 
     return (
         <div
-            style={{ height: "100vh", width: "100vw" }}
+            style={{ height: "100vh", width: "100vw", pointerEvents: "auto" }}
             ref={photosphereWrapper}
         />
     );
