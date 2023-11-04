@@ -1,11 +1,10 @@
-import { useState } from "react";
-
-import { Image } from "@nextgisweb/gui/antd";
 import i18n from "@nextgisweb/pyramid/i18n";
+
+import type { FeatureAttachment } from "../type";
 
 import { GetFeatureImage } from "./util/GetFeatureImage";
 
-import type { FeatureAttachment } from "../type";
+import { EyeOutlined } from "@ant-design/icons";
 
 import "./ImageThumbnail.less";
 
@@ -33,57 +32,52 @@ export const ImageThumbnail = ({
         resourceId,
         attachment,
     });
-
-    const [hovered, setHovered] = useState(false);
-
     return (
         <div
-            className="image-thumbnail-container"
+            className="ngw-feature-attachment-image-thumbnail-container"
             style={{
                 margin: "8px",
                 width: width,
                 height: "auto",
                 display: "flex",
             }}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
             onClick={() => {
                 if (onClick) onClick(attachment);
             }}
         >
+            <div
+                className="ngw-feature-attachment-image-thumbnail-text-container"
+                style={{
+                    position: "absolute",
+                    color: "white",
+                    display: "flex",
+                    inset: 0,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "16px",
+                }}
+            >
+                <div>
+                    <div
+                        className="ngw-feature-attachment-image-thumbnail-text"
+                        style={{
+                            color: "white",
+                        }}
+                    >
+                        <span>
+                            <EyeOutlined />
+                        </span>
+                        {i18n.gettext(" Preview")}
+                    </div>
+                </div>
+            </div>
             <img
-                className="image-thumbnail"
+                className="ngw-feature-attachment-image-thumbnail"
                 width="100%"
                 height="auto"
                 src={`${url}?size=${previewSize}`}
                 draggable={false}
             />
-            <div
-                style={{
-                    height: "auto",
-                    width: "inherit ",
-                    position: "absolute",
-                    textAlign: "center",
-                    color: "white",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
-                <div
-                    className="image-thumbnail-preview-text"
-                    style={{
-                        position: "absolute",
-                        textAlign: "center",
-                        color: "white",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                >
-                    <span> </span> {i18n.gettext("Preview")}
-                </div>
-            </div>
         </div>
     );
 };
