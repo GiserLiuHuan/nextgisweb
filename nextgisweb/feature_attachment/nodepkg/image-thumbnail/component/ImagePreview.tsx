@@ -1,5 +1,7 @@
 import { lazy } from "react";
 
+import { Image } from "@nextgisweb/gui/antd";
+
 import type { FeatureAttachment } from "../../type";
 import { useFeatureImage } from "../hook/useFeatureImage";
 const PhotospherePreview = lazy(() => import("./PhotospherePreview"));
@@ -28,8 +30,8 @@ export function ImagePreview({
     }
 
     return (
-        <div>
-            <img src={url} style={{ maxHeight: "100vh" }} />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+            <Image src={url} preview={false} style={{ maxHeight: "100vh" }} />
         </div>
     );
 }
