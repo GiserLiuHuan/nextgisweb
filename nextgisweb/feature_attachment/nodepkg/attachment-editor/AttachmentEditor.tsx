@@ -11,6 +11,7 @@ import { Button, Input, Modal, Table, Upload } from "@nextgisweb/gui/antd";
 import { formatSize } from "@nextgisweb/gui/util";
 import showModal from "@nextgisweb/gui/showModal";
 import i18n from "@nextgisweb/pyramid/i18n";
+import Close from "@nextgisweb/icon/material/close";
 
 import { ImageThumbnail } from "../image-thumbnail/ImageThumbnail";
 import { CarouselRender } from "../image-thumbnail/component/CarouselRender";
@@ -138,7 +139,23 @@ const AttachmentEditor = observer(
                                                 open={open}
                                                 destroyOnClose
                                                 footer={null}
-                                                closable={false}
+                                                closable={true}
+                                                closeIcon={
+                                                    <Close
+                                                        style={{
+                                                            position:
+                                                                "absolute",
+                                                            top: "32px",
+                                                            right: "32px",
+                                                            fontSize: "32px",
+                                                            color: "white",
+                                                            backgroundColor:
+                                                                "#00000073",
+                                                            borderRadius:
+                                                                "100%",
+                                                        }}
+                                                    />
+                                                }
                                                 onCancel={close}
                                             >
                                                 <CarouselRender
