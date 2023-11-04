@@ -1,6 +1,4 @@
 /** @entrypoint */
-import { ImageModal } from "./ImageModal";
-export { ImageModal };
+export { ImageModal } from "./ImageModal";
 
-import type { ImageModalProps } from "./ImageModal";
-export type { ImageModalProps };
+export { type ImageModalProps } from "./ImageModal";
