@@ -56,6 +56,7 @@ export const ImageThumbnail = ({
                 width="100%"
                 height="auto"
                 src={`${url}?size=${previewSize}`}
+                draggable={false}
             />
             <div
                 style={{
