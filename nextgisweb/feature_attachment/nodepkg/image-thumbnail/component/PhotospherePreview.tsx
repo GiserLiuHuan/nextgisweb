@@ -1,4 +1,4 @@
-import { useEffect, useRef, Suspense } from "react";
+import { useEffect, useRef} from "react";
 
 import { Viewer } from "@photo-sphere-viewer/core";
 
@@ -17,7 +17,7 @@ export default function PhotospherePreview({ url }: PhotospherePreviewProps) {
             viewer = new Viewer({
                 container: photosphereWrapper.current,
                 panorama: url,
-                size: { height: "inherit", width: "inherit" },
+                size: { height: "100vh", width: "100vw" },
             });
         }
 
@@ -29,11 +29,9 @@ export default function PhotospherePreview({ url }: PhotospherePreviewProps) {
     }, [photosphereWrapper, url]);
 
     return (
-        <Suspense>
-            <div
-                style={{ height: "100%", width: "100%" }}
-                ref={photosphereWrapper}
-            />
-        </Suspense>
+        <div
+            style={{ height: "100vh", width: "100vw" }}
+            ref={photosphereWrapper}
+        />
     );
 }
