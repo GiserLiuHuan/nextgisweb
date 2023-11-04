@@ -8,7 +8,7 @@ import { ImagePreview } from "./ImagePreview";
 import type { DataSource } from "../../attachment-editor/type";
 import type { FeatureAttachment } from "../../type";
 
-import "@splidejs/react-splide/css";
+// import "@splidejs/react-splide/css";
 import "./CarouselRender.less";
 
 interface CarouselRenderProps {
@@ -32,10 +32,10 @@ export function CarouselRender({
         return false;
     });
     const [start] = useState(() =>
-        imageList.findIndex((l) => l.id === attachment.id)
+        imageList.findIndex((l: FeatureAttachment) => l.id === attachment.id)
     );
     return (
-        <div className="SliderContainer">
+        <div className="carousel-container">
             <FloatButton
                 type={togglePanorama ? "primary" : "default"}
                 tooltip={i18n.gettext("Panorama mode")}

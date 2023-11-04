@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Suspense } from "react";
 
 import { Viewer } from "@photo-sphere-viewer/core";
 
@@ -29,9 +29,11 @@ export default function PhotospherePreview({ url }: PhotospherePreviewProps) {
     }, [photosphereWrapper, url]);
 
     return (
-        <div
-            style={{ height: "100%", width: "100%" }}
-            ref={photosphereWrapper}
-        />
+        <Suspense>
+            <div
+                style={{ height: "100%", width: "100%" }}
+                ref={photosphereWrapper}
+            />
+        </Suspense>
     );
 }
