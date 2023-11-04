@@ -120,3 +120,8 @@ Running tests
   The last option with ``--pyargs`` might be useful when running tests in Crater
   / NGWDocker environment. Path-based options won't work because of symlinks
   inside ``site-packages`` directory.
+  
+.. note::
+
+  If you use the NGWDocker environment, run the scripts from the ``opt/ngw/`` 
+  folder
