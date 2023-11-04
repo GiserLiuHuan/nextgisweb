@@ -1,10 +1,10 @@
 import { observer } from "mobx-react-lite";
-import { ImageModal } from "../../../gui/nodepkg/image-modal";
+import { ImageModal } from "@nextgisweb/gui/image-modal";
 
-import  { ImageModalProps } from "../../../gui/nodepkg/image-modal";
+import type { ImageModalProps } from "@nextgisweb/gui/image-modal";
 
-export const ImageModalWrapper = observer(({ url, projection, previewSize }: ImageModalProps) => {
-    return <ImageModal
-        {...{ url, projection, previewSize }}
-    />
-})
+export const ImageModalWrapper = observer(
+    ({ url, projection, previewSize }: ImageModalProps) => {
+        return <ImageModal {...{ url, projection, previewSize }} />;
+    }
+);
