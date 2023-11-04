@@ -2,7 +2,7 @@ import i18n from "@nextgisweb/pyramid/i18n";
 
 import type { FeatureAttachment } from "../type";
 
-import { GetFeatureImage } from "./util/GetFeatureImage";
+import { getFeatureImage } from "./util/getFeatureImage";
 
 import { EyeOutlined } from "@ant-design/icons";
 
@@ -24,7 +24,7 @@ export const ImageThumbnail = ({
     resourceId,
     attachment,
 }: ImageThumbnailProps) => {
-    const { url } = GetFeatureImage({
+    const { url } = getFeatureImage({
         featureId,
         resourceId,
         attachment,

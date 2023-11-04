@@ -24,7 +24,7 @@ import Close from "@nextgisweb/icon/material/close";
 
 import "./AttachmentEditor.less";
 
-function isFileImage(file: File) {
+export function isFileImage(file: File) {
     return file && file["type"].split("/")[0] === "image";
 }
 

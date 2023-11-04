@@ -6,14 +6,13 @@ import i18n from "@nextgisweb/pyramid/i18n";
 
 import type { DataSource } from "../../attachment-editor/type";
 import type { FeatureAttachment } from "../../type";
-import { GetFeatureImage } from "../util/GetFeatureImage";
+import { getFeatureImage } from "../util/getFeatureImage";
 
 import { LoadingOutlined } from "@ant-design/icons";
 import ArrowBack from "@nextgisweb/icon/material/arrow_back";
 import ArrowForward from "@nextgisweb/icon/material/arrow_forward";
 import PhotosphereIcon from "@nextgisweb/icon/material/panorama";
 
-// import "@splidejs/react-splide/css";
 import "./CarouselRender.less";
 
 const PhotospherePreview = lazy(() => import("./PhotospherePreview"));
@@ -39,8 +38,10 @@ export function CarouselRender({
             slideCount?: number;
         } & object
     ) => {
-        //
-        const { children, currentSlide, slideCount, ...otherProps } = props;
+        const { children, ...otherProps } = props;
+        delete otherProps.currentSlide;
+        delete otherProps.slideCount;
+
         return <div {...otherProps}>{children}</div>;
     };
 
@@ -53,12 +54,14 @@ export function CarouselRender({
         return false;
     });
     const [start] = useState(() =>
-        imageList.findIndex((l: FeatureAttachment) => l.id === attachment.id)
+        imageList.findIndex((l: FeatureAttachment) => {
+            return l.id === attachment.id;
+        })
     );
 
     const urlPanoramas = imageList.map((d) => {
         const a = d as FeatureAttachment;
-        return GetFeatureImage({
+        return getFeatureImage({
             attachment: a,
             resourceId,
             featureId,
