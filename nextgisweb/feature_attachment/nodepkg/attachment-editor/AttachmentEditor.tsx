@@ -7,7 +7,7 @@ import { FileUploaderButton } from "@nextgisweb/file-upload/file-uploader";
 import type { UploaderMeta } from "@nextgisweb/file-upload/file-uploader/type";
 import { ActionToolbar } from "@nextgisweb/gui/action-toolbar";
 import { Button, Input, Table, Upload } from "@nextgisweb/gui/antd";
-import { ImageModalWrapper } from "./ImageModalWrapper";
+
 import { formatSize } from "@nextgisweb/gui/util";
 import { routeURL } from "@nextgisweb/pyramid/api";
 import { gettext } from "@nextgisweb/pyramid/i18n";
@@ -121,27 +121,12 @@ const AttachmentEditor = observer(
                                 render: (_, row) => {
                                     const r = row as DataSource;
                                     if ("is_image" in r && r.is_image) {
-                                        let projection: string | null = null;
-                                        if ("file_meta" in r) {
-                                            try {
-                                                projection =
-                                                    r.file_meta.panorama
-                                                        .ProjectionType;
-                                            } catch (error) {
-                                                // pass
-                                            }
-                                        }
-                                        const url = routeURL(
-                                            "feature_attachment.image",
-                                            {
-                                                id: store_.resourceId,
-                                                fid: store_.featureId,
-                                                aid: r.id,
-                                            }
-                                        );
                                         return (
-                                            <ImageModalWrapper
-                                                {...{ url, projection }}
+                                            <ImageModal
+                                                attachment={r}
+                                                resourceId={store_.resourceId}
+                                                featureId={store_.featureId}
+                                                data={dataSource}
                                                 width={width}
                                             />
                                         );
