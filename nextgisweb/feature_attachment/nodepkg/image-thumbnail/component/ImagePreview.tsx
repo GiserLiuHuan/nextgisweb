@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
+import { LoadingOutlined } from "@ant-design/icons";
 
-import { Image } from "@nextgisweb/gui/antd";
-import { LoadingWrapper } from "@nextgisweb/gui/component";
+import { Image, Spin } from "@nextgisweb/gui/antd";
 
 import type { FeatureAttachment } from "../../type";
 import { useFeatureImage } from "../hook/useFeatureImage";
@@ -28,7 +28,18 @@ export function ImagePreview({
     //TODO: Change fallback to some other component (LoadingWrapper is for text)
     if (projection && togglePanorama) {
         return (
-            <Suspense fallback={<LoadingWrapper />}>
+            <Suspense
+                fallback={
+                    <Spin
+                        indicator={
+                            <LoadingOutlined
+                                style={{ fontSize: 24 }}
+                                spin={true}
+                            />
+                        }
+                    />
+                }
+            >
                 <PhotospherePreview url={url} />;
             </Suspense>
         );
