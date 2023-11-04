@@ -1,6 +1,5 @@
-import { useEffect, useRef} from "react";
-
 import { Viewer } from "@photo-sphere-viewer/core";
+import { useEffect, useRef } from "react";
 
 import "@photo-sphere-viewer/core/index.css";
 

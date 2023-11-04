@@ -1,4 +1,4 @@
-> .carousel-container > .ant-carousel > .slick-slider {
+> .ngw-feature-attachment-carousel-container > .ant-carousel > .slick-slider {
     > .slick-arrow .slick-arrow::before {
         border-radius: 100%;
         background-color: #00000073;
@@ -9,9 +9,11 @@
     > .slick-list {
         height: 100vh;
 
-        > .slick-track {
+        > .slick-track > .slick-slide {
             display: flex !important;
             align-items: center !important;
+            width: 100vw;
+            height: 100vh;
         }
     }
 }

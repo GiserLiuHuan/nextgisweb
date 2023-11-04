@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Image } from "@nextgisweb/gui/antd";
 import i18n from "@nextgisweb/pyramid/i18n";
 
-import { useFeatureImage } from "./hook/useFeatureImage";
+import { GetFeatureImage } from "./util/GetFeatureImage";
 
 import type { FeatureAttachment } from "../type";
 
@@ -28,7 +28,7 @@ export const ImageThumbnail = ({
 }: ImageThumbnailProps) => {
     previewSize = previewSize ?? `${width}x${width}`;
 
-    const { url } = useFeatureImage({
+    const { url } = GetFeatureImage({
         featureId,
         resourceId,
         attachment,
