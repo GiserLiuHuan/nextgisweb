@@ -23,14 +23,13 @@ export const ImageThumbnail = ({
     featureId,
     resourceId,
     attachment,
-    previewSize,
 }: ImageThumbnailProps) => {
-    previewSize = previewSize ?? `${width}x${width}`;
-
     const { url } = GetFeatureImage({
         featureId,
         resourceId,
         attachment,
+        height: width,
+        width: width,
     });
     return (
         <div
@@ -75,7 +74,7 @@ export const ImageThumbnail = ({
                 className="ngw-feature-attachment-image-thumbnail"
                 width="100%"
                 height="auto"
-                src={`${url}?size=${previewSize}`}
+                src={url}
                 draggable={false}
             />
         </div>
