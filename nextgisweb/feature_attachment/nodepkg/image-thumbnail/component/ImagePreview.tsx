@@ -1,6 +1,7 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 
 import { Image } from "@nextgisweb/gui/antd";
+import { LoadingWrapper } from "@nextgisweb/gui/component";
 
 import type { FeatureAttachment } from "../../type";
 import { useFeatureImage } from "../hook/useFeatureImage";
@@ -24,9 +25,13 @@ export function ImagePreview({
         resourceId,
         featureId,
     });
-
+    //TODO: Change fallback to some other component (LoadingWrapper is for text)
     if (projection && togglePanorama) {
-        return <PhotospherePreview url={url} />;
+        return (
+            <Suspense fallback={<LoadingWrapper />}>
+                <PhotospherePreview url={url} />;
+            </Suspense>
+        );
     }
 
     return (
