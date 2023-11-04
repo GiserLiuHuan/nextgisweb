@@ -74,40 +74,50 @@
         width: 100vw;
         height: 100vh;
         overflow: hidden;
+        pointer-events: none !important;
         > .ant-modal-close {
-            height: 32px;
-            width: 32px;
             border-radius: 100%;
+            width: 32px;
+            height: 32px;
+            pointer-events: auto !important;
         }
-        > .ant-modal-body
-            > .ngw-feature-attachment-carousel-container
-            > .ant-carousel
-            > .slick-slider {
-            > .icon {
-                position: absolute;
-                top: 50%;
-                right: 12px;
-                border-radius: 100%;
-                background-color: rgba(0, 0, 0, 0.2);
-                color: white;
-                font-size: 30px;
-            }
-            > .slick-list {
-                height: 100vh;
+        > .ant-modal-body {
+            pointer-events: none !important;
+            > .ngw-feature-attachment-carousel-container {
+                pointer-events: none !important;
+                > .ant-float-btn {
+                    pointer-events: auto !important;
+                }
+                > .ant-carousel > .slick-slider {
+                    pointer-events: none !important;
+                    > .icon {
+                        position: absolute;
+                        top: 50%;
+                        right: 12px;
+                        border-radius: 100%;
+                        background-color: rgba(0, 0, 0, 0.2);
+                        color: white;
+                        font-size: 30px;
+                    }
+                    > .slick-list {
+                        height: 100vh;
 
-                > .slick-track > .slick-slide {
-                    display: flex !important;
-                    align-items: center !important;
-                    justify-content: center !important;
-                    height: 100vh;
-                    width: 100vw;
+                        > .slick-track > .slick-slide {
+                            display: flex !important;
+                            justify-content: center !important;
+                            align-items: center !important;
+                            width: 100vw;
+                            height: 100vh;
+                            pointer-events: none !important;
+                        }
+                    }
+                    > .slick-dots-bottom {
+                        position: absolute;
+                        bottom: 20px;
+                        pointer-events: auto !important;
+                    }
                 }
             }
-        }
-
-        > .slick-dots-bottom {
-            position: absolute;
-            bottom: 20px;
         }
     }
 }
