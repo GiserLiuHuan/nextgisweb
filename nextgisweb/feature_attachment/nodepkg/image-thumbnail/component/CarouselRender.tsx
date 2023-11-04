@@ -1,8 +1,7 @@
-import { Suspense, lazy, useState } from "react";
-import type { CSSProperties } from "react";
+import { Suspense, lazy, useState, CSSProperties } from "react";
 
 import { Carousel, FloatButton, Image, Spin } from "@nextgisweb/gui/antd";
-import i18n from "@nextgisweb/pyramid/i18n";
+import { gettext } from "@nextgisweb/pyramid/i18n";
 
 import type { DataSource } from "../../attachment-editor/type";
 import type { FeatureAttachment } from "../../type";
@@ -45,6 +44,16 @@ export function CarouselRender({
         return <div {...otherProps}>{children}</div>;
     };
 
+    const arrowStyle: CSSProperties = {
+        position: "absolute",
+        fontSize: "32px",
+        color: "white",
+        zIndex: "100",
+        backgroundColor: "#00000073",
+        borderRadius: "100%",
+        pointerEvents: "all",
+    };
+
     const [togglePanorama, setTogglePanorama] = useState(false);
 
     const imageList = data.filter((d) => {
@@ -54,12 +63,13 @@ export function CarouselRender({
         return false;
     });
     const [start] = useState(() =>
-        imageList.findIndex((l: FeatureAttachment) => {
-            return l.id === attachment.id;
+        imageList.findIndex((d) => {
+            const image = d as FeatureAttachment;
+            return image.id === attachment.id;
         })
     );
 
-    const urlPanoramas = imageList.map((d) => {
+    const imageUrlIsPanorama = imageList.map((d) => {
         const a = d as FeatureAttachment;
         return getFeatureImage({
             attachment: a,
@@ -67,52 +77,39 @@ export function CarouselRender({
             featureId,
         });
     });
-    const [visibility, setVisibility] = useState<CSSProperties>(() => {
-        return urlPanoramas[start].isPanorama
-            ? { visibility: "visible" }
-            : { visibility: "hidden" };
+    const [visibility, setVisibility] = useState<boolean>(() => {
+        return imageUrlIsPanorama[start].isPanorama;
     });
+    const tooltipToggled = gettext("Exit panorama mode");
+    const tooltipNotToggled = gettext("Panorama mode");
     return (
         <div className="ngw-feature-attachment-carousel-container">
-            <FloatButton
-                type={togglePanorama ? "primary" : "default"}
-                style={visibility}
-                tooltip={
-                    togglePanorama
-                        ? i18n.gettext("Exit panorama mode")
-                        : i18n.gettext("Panorama mode")
-                }
-                icon={<PhotosphereIcon />}
-                onClick={() => {
-                    setTogglePanorama(!togglePanorama);
-                }}
-            />
+            {visibility ? (
+                <FloatButton
+                    type={togglePanorama ? "primary" : "default"}
+                    tooltip={
+                        togglePanorama ? tooltipToggled : tooltipNotToggled
+                    }
+                    icon={<PhotosphereIcon />}
+                    onClick={() => {
+                        setTogglePanorama(!togglePanorama);
+                    }}
+                />
+            ) : null}
+
             <Carousel
                 initialSlide={start}
                 arrows={true}
                 dots={true}
                 lazyLoad="progressive"
-                afterChange={(currentSlide) => {
-                    setVisibility(
-                        urlPanoramas[currentSlide].isPanorama
-                            ? { visibility: "visible" }
-                            : { visibility: "hidden" }
-                    );
+                beforeChange={(oldSlide, currentSlide) => {
+                    setVisibility(imageUrlIsPanorama[currentSlide].isPanorama);
                 }}
                 nextArrow={
                     <SlickButtonFix>
                         <ArrowForward
                             className="arrow-forward"
-                            style={{
-                                position: "absolute",
-                                right: "32px",
-                                fontSize: "32px",
-                                color: "white",
-                                zIndex: "100",
-                                backgroundColor: "#00000073",
-                                borderRadius: "100%",
-                                pointerEvents: "all",
-                            }}
+                            style={{ ...arrowStyle, right: "32px" }}
                         />
                     </SlickButtonFix>
                 }
@@ -120,21 +117,12 @@ export function CarouselRender({
                     <SlickButtonFix>
                         <ArrowBack
                             className="arrow-backward"
-                            style={{
-                                position: "absolute",
-                                left: "32px",
-                                fontSize: "32px",
-                                color: "white",
-                                zIndex: "100",
-                                backgroundColor: "#00000073",
-                                borderRadius: "100%",
-                                pointerEvents: "all",
-                            }}
+                            style={{ ...arrowStyle, left: "32px" }}
                         />
                     </SlickButtonFix>
                 }
             >
-                {urlPanoramas.map(({ url, isPanorama }, index) => {
+                {imageUrlIsPanorama.map(({ url, isPanorama }, index) => {
                     return (
                         <div
                             className={"ngw-feature-attachment-carousel-slide"}
@@ -147,7 +135,10 @@ export function CarouselRender({
                                         <Spin
                                             indicator={
                                                 <LoadingOutlined
-                                                    style={{ fontSize: 24 }}
+                                                    style={{
+                                                        fontSize: 24,
+                                                        color: "white",
+                                                    }}
                                                     spin={true}
                                                 />
                                             }
