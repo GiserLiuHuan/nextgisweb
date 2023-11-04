@@ -28,15 +28,7 @@ export function ImagePreview({
     }
 
     return (
-        <div
-            style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100vh",
-                width: "100vw",
-            }}
-        >
+        <div>
             <img src={url} style={{ maxHeight: "100vh" }} />
         </div>
     );

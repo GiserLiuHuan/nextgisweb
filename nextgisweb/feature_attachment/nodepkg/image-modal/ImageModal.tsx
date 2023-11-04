@@ -1,9 +1,7 @@
 import { Image } from "@nextgisweb/gui/antd";
 
-import { CarouselRender } from "./component/CarouselRender";
 import { useFeatureImage } from "./hook/useFeatureImage";
 
-import type { DataSource } from "../attachment-editor/type";
 import type { FeatureAttachment } from "../type";
 
 export type ImageModalProps = {
@@ -12,11 +10,11 @@ export type ImageModalProps = {
     featureId: number;
     previewSize?: string;
     width?: number;
-    data?: DataSource[];
+    onClick?: (attachment: FeatureAttachment) => void;
 };
 
 export const ImageModal = ({
-    data,
+    onClick,
     width = 80,
     featureId,
     resourceId,
@@ -32,20 +30,15 @@ export const ImageModal = ({
     });
 
     return (
-        <Image
-            width={width}
-            src={`${url}?size=${previewSize}`}
-            preview={{
-                imageRender: () => (
-                    <CarouselRender
-                        attachment={attachment}
-                        data={data || []}
-                        resourceId={resourceId}
-                        featureId={featureId}
-                    />
-                ),
-                toolbarRender: () => null,
-            }}
-        ></Image>
+        <div>
+            <Image
+                width={width}
+                src={`${url}?size=${previewSize}`}
+                preview={false}
+                onClick={() => {
+                    if (onClick) onClick(attachment);
+                }}
+            ></Image>
+        </div>
     );
 };
