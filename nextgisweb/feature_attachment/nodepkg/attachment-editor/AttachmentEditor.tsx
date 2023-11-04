@@ -131,18 +131,15 @@ const AttachmentEditor = observer(
                                             close,
                                         }: ShowModalOptions) => (
                                             <Modal
-                                                className="carousel-modal"
+                                                className="ngw-feature-attachment-carousel-modal"
                                                 open={open}
                                                 destroyOnClose
                                                 footer={null}
-                                                closable={true}
+                                                mask={true}
+                                                maskClosable={true}
                                                 closeIcon={
                                                     <Close
                                                         style={{
-                                                            position:
-                                                                "absolute",
-                                                            top: "32px",
-                                                            right: "32px",
                                                             fontSize: "32px",
                                                             color: "white",
                                                             backgroundColor:
