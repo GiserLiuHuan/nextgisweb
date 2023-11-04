@@ -1,4 +1,4 @@
-import {
+export {
     Affix,
     Alert,
     Anchor,
@@ -8,6 +8,7 @@ import {
     Badge,
     Breadcrumb,
     Button,
+    FloatButton,
     Card,
     Carousel,
     Cascader,
@@ -69,11 +70,12 @@ export { default as Table } from "./table";
 export { default as Tabs } from "./tabs";
 
 export type { SizeType } from "antd/lib/config-provider/SizeContext";
+import type { ParamsOf } from "../type";
+
 export type { TableProps } from "./table";
 export type { TabsProps } from "./tabs";
 
-export {
-    Affix,
+import type {
     Anchor,
     AutoComplete,
     Alert,
@@ -82,6 +84,7 @@ export {
     Badge,
     Breadcrumb,
     Button,
+    FloatButton,
     Card,
     Collapse,
     Carousel,
@@ -95,20 +98,16 @@ export {
     Drawer,
     Empty,
     Form,
-    Grid,
     Input,
     Image,
     InputNumber,
     Layout,
     List,
-    message,
     Menu,
     Mentions,
     Modal,
     Statistic,
-    notification,
     Pagination,
-    Popconfirm,
     Popover,
     Progress,
     Radio,
@@ -130,7 +129,7 @@ export {
     Tooltip,
     Typography,
     Upload,
-};
+} from "antd";
 
 // Props shortcuts
 type AnchorProps = ParamsOf<typeof Anchor>;
@@ -141,6 +140,7 @@ type BackTopProps = ParamsOf<typeof BackTop>;
 type BadgeProps = ParamsOf<typeof Badge>;
 type BreadcrumbProps = ParamsOf<typeof Breadcrumb>;
 type ButtonProps = ParamsOf<typeof Button>;
+type FloatButtonProps = ParamsOf<typeof FloatButton>;
 type CardProps = ParamsOf<typeof Card>;
 type CollapseProps = ParamsOf<typeof Collapse>;
 type CarouselProps = ParamsOf<typeof Carousel>;
@@ -195,6 +195,7 @@ export type {
     BadgeProps,
     BreadcrumbProps,
     ButtonProps,
+    FloatButtonProps,
     CardProps,
     CollapseProps,
     CarouselProps,
