@@ -1,10 +1,12 @@
-import { lazy, Suspense } from "react";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Suspense, lazy } from "react";
 
 import { Image, Spin } from "@nextgisweb/gui/antd";
 
 import type { FeatureAttachment } from "../../type";
 import { useFeatureImage } from "../hook/useFeatureImage";
+
+import { LoadingOutlined } from "@ant-design/icons";
+
 const PhotospherePreview = lazy(() => import("./PhotospherePreview"));
 
 interface ImagePreviewProps {
@@ -25,7 +27,7 @@ export function ImagePreview({
         resourceId,
         featureId,
     });
-    //TODO: Change fallback to some other component (LoadingWrapper is for text)
+
     if (projection && togglePanorama) {
         return (
             <Suspense

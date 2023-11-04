@@ -1,4 +1,4 @@
-export {
+import {
     Affix,
     Alert,
     Anchor,
@@ -8,7 +8,6 @@ export {
     Badge,
     Breadcrumb,
     Button,
-    FloatButton,
     Card,
     Carousel,
     Cascader,
@@ -21,6 +20,7 @@ export {
     Drawer,
     Dropdown,
     Empty,
+    FloatButton,
     Form,
     Grid,
     Image,
@@ -70,12 +70,11 @@ export { default as Table } from "./table";
 export { default as Tabs } from "./tabs";
 
 export type { SizeType } from "antd/lib/config-provider/SizeContext";
-import type { ParamsOf } from "../type";
-
 export type { TableProps } from "./table";
 export type { TabsProps } from "./tabs";
 
-import type {
+export {
+    Affix,
     Anchor,
     AutoComplete,
     Alert,
@@ -84,7 +83,6 @@ import type {
     Badge,
     Breadcrumb,
     Button,
-    FloatButton,
     Card,
     Collapse,
     Carousel,
@@ -97,17 +95,22 @@ import type {
     Dropdown,
     Drawer,
     Empty,
+    FloatButton,
     Form,
+    Grid,
     Input,
     Image,
     InputNumber,
     Layout,
     List,
+    message,
     Menu,
     Mentions,
     Modal,
     Statistic,
+    notification,
     Pagination,
+    Popconfirm,
     Popover,
     Progress,
     Radio,
@@ -129,7 +132,7 @@ import type {
     Tooltip,
     Typography,
     Upload,
-} from "antd";
+};
 
 // Props shortcuts
 type AnchorProps = ParamsOf<typeof Anchor>;
@@ -140,7 +143,6 @@ type BackTopProps = ParamsOf<typeof BackTop>;
 type BadgeProps = ParamsOf<typeof Badge>;
 type BreadcrumbProps = ParamsOf<typeof Breadcrumb>;
 type ButtonProps = ParamsOf<typeof Button>;
-type FloatButtonProps = ParamsOf<typeof FloatButton>;
 type CardProps = ParamsOf<typeof Card>;
 type CollapseProps = ParamsOf<typeof Collapse>;
 type CarouselProps = ParamsOf<typeof Carousel>;
@@ -153,6 +155,7 @@ type DividerProps = ParamsOf<typeof Divider>;
 type DropdownProps = ParamsOf<typeof Dropdown>;
 type DrawerProps = ParamsOf<typeof Drawer>;
 type EmptyProps = ParamsOf<typeof Empty>;
+type FloatButtonProps = ParamsOf<typeof FloatButton>;
 type FormProps = ParamsOf<typeof Form>;
 type InputProps = ParamsOf<typeof Input>;
 type ImageProps = ParamsOf<typeof Image>;
@@ -195,7 +198,6 @@ export type {
     BadgeProps,
     BreadcrumbProps,
     ButtonProps,
-    FloatButtonProps,
     CardProps,
     CollapseProps,
     CarouselProps,
@@ -208,6 +210,7 @@ export type {
     DropdownProps,
     DrawerProps,
     EmptyProps,
+    FloatButtonProps,
     FormProps,
     InputProps,
     ImageProps,

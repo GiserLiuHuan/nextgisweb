@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { useCallback, useMemo, useState, useRef } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 import type { EditorWidgetProps } from "@nextgisweb/feature-layer/feature-editor/type";
 import { useFileUploader } from "@nextgisweb/file-upload";
@@ -7,24 +7,20 @@ import { FileUploaderButton } from "@nextgisweb/file-upload/file-uploader";
 import type { UploaderMeta } from "@nextgisweb/file-upload/file-uploader/type";
 import { ActionToolbar } from "@nextgisweb/gui/action-toolbar";
 import { Button, Input, Modal, Table, Upload } from "@nextgisweb/gui/antd";
-
-import { formatSize } from "@nextgisweb/gui/util";
 import showModal from "@nextgisweb/gui/showModal";
-import i18n from "@nextgisweb/pyramid/i18n";
-import Close from "@nextgisweb/icon/material/close";
+import type { ShowModalOptions } from "@nextgisweb/gui/showModal";
+import { formatSize } from "@nextgisweb/gui/util";
+import { gettext } from "@nextgisweb/pyramid/i18n";
 
 import { ImageThumbnail } from "../image-thumbnail/ImageThumbnail";
 import { CarouselRender } from "../image-thumbnail/component/CarouselRender";
 
+import AttachmentEditorStore from "./AttachmentEditorStore";
 import { FileReaderImage } from "./component/FileReaderImage";
 import type { DataSource } from "./type";
 
 import DeleteIcon from "@nextgisweb/icon/material/clear";
-
-import type { ShowModalOptions } from "@nextgisweb/gui/showModal";
-import type { EditorWidgetProps } from "@nextgisweb/feature-layer/feature-editor/type";
-import type { UploaderMeta } from "@nextgisweb/file-upload/file-uploader/type";
-import type { DataSource } from "./type";
+import Close from "@nextgisweb/icon/material/close";
 
 import "./AttachmentEditor.less";
 
