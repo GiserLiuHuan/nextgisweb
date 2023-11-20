@@ -29,9 +29,14 @@ export function useActionToolbar({ size, props }: UseActionToolbarProps) {
                 btnAction.disabled =
                     typeof disabled === "function" ? disabled(props) : disabled;
             }
-
-            if (typeof icon === "string") {
-                btnAction.icon = <SvgIcon icon={icon} fill="currentColor" />;
+            if (icon) {
+                if (typeof icon === "string") {
+                    btnAction.icon = (
+                        <SvgIcon icon={icon} fill="currentColor" />
+                    );
+                } else {
+                    btnAction.icon = icon;
+                }
             }
             return <Button {...btnAction}>{title}</Button>;
         },
