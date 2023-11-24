@@ -74,7 +74,7 @@ export type Symbolizer =
     | PolygonSymbolizer
     | RasterSymbolizer;
 
-export type SymbolizerType = Symbolizer["type"];
+export type SymbolizerType = Exclude<Symbolizer["type"], "raster">;
 
 export interface Rule {
     symbolizers: Symbolizer[];
