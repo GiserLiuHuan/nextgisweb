@@ -11,7 +11,7 @@ import Close from "@nextgisweb/icon/material/close";
 
 interface CarouselModalOptions extends ShowModalOptions {
     dataSource: DataSource[];
-    attachment: FeatureAttachment;
+    attachment: DataSource;
     featureId: number;
     resourceId: number;
 }

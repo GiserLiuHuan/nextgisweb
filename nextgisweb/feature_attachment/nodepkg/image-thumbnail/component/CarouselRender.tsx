@@ -11,7 +11,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import ArrowBack from "@nextgisweb/icon/material/arrow_back";
 import ArrowForward from "@nextgisweb/icon/material/arrow_forward";
 import PhotosphereIcon from "@nextgisweb/icon/material/panorama";
-
+1
 import "./CarouselRender.less";
 
 const PhotospherePreview = lazy(() => import("./PhotospherePreview"));

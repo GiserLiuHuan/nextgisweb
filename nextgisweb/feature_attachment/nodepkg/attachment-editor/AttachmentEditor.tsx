@@ -126,46 +126,41 @@ const AttachmentEditor = observer(
                                 className: "preview",
                                 render: (_, row) => {
                                     const r = row as DataSource;
+                                    let newFile;
                                     if ("is_image" in r && r.is_image) {
-                                        return (
-                                            <ImageThumbnail
-                                                attachment={r}
-                                                resourceId={store_.resourceId}
-                                                featureId={store_.featureId}
-                                                width={width}
-                                                onClick={() => {
-                                                    const container =
-                                                        previewRef.current;
-                                                    if (container) {
-                                                        showModal(
-                                                            CarouselModal,
-                                                            {
-                                                                dataSource,
-                                                                attachment: r,
-                                                                featureId:
-                                                                    store_.featureId,
-                                                                resourceId:
-                                                                    store_.resourceId,
-                                                                getContainer:
-                                                                    container,
-                                                            }
-                                                        );
-                                                    }
-                                                }}
-                                            />
-                                        );
+                                        newFile = false;
                                     } else if (
                                         "_file" in r &&
                                         r._file instanceof File &&
                                         isFileImage(r._file)
                                     ) {
-                                        return (
-                                            <FileReaderImage
-                                                width={width}
-                                                file={r._file}
-                                            />
-                                        );
+                                        newFile = true;
                                     }
+                                    return (
+                                        <ImageThumbnail
+                                            attachment={r}
+                                            resourceId={store_.resourceId}
+                                            featureId={store_.featureId}
+                                            width={width}
+                                            newFile={newFile}
+                                            onClick={() => {
+                                                const container =
+                                                    previewRef.current;
+                                                if (container) {
+                                                    showModal(CarouselModal, {
+                                                        dataSource,
+                                                        attachment: r,
+                                                        featureId:
+                                                            store_.featureId,
+                                                        resourceId:
+                                                            store_.resourceId,
+                                                        getContainer: container,
+                                                    });
+                                                }
+                                            }}
+                                        />
+                                    );
+
                                     return "";
                                 },
                             },

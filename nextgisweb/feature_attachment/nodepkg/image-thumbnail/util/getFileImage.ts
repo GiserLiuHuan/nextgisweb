@@ -1,6 +1,6 @@
 // WIP for new files
 export function getFileImage(file: File) {
-    return new Promise((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
         const fr = new FileReader();
         fr.readAsDataURL(file);
         fr.onload = function () {
